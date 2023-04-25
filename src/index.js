@@ -1,17 +1,14 @@
 const line = require('@line/bot-sdk')
 const express = require("express")
-const axios = require('axios').default
-const dotenv = require('dotenv')
 
 const app = express()
-const env = dotenv.config().parsed
 
 // Create a router to handle routes
 const router = express.Router();
 
 const lineConfig = {
-    channelAccessToken: env.ACCESS_TOKEN,
-    channelSecret: env.SECRET_TOKEN
+    channelAccessToken: process.env.ACCESS_TOKEN,
+    channelSecret: process.env.SECRET_TOKEN
 }
 
 const client = new line.Client(lineConfig)
@@ -46,7 +43,7 @@ app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
     }
 })
 
-const port = env.PORT || 3000
+const port = process.env.PORT || 3000
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
