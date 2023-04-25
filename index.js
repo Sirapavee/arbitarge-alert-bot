@@ -7,8 +7,8 @@ const app = express()
 const env = dotenv.config().parsed
 
 const lineConfig = {
-    channelAccessToken: process.env.ACCESS_TOKEN,
-    channelSecret: process.env.SECRET_TOKEN
+    channelAccessToken: env.ACCESS_TOKEN,
+    channelSecret: env.SECRET_TOKEN
 }
 
 const client = new line.Client(lineConfig)
@@ -33,7 +33,7 @@ app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
     }
 })
 
-const port = process.env.PORT || 3000
+const port = env.PORT || 3000
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
