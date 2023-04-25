@@ -1,5 +1,6 @@
 const line = require('@line/bot-sdk')
 const express = require("express")
+const serverless = require("serverless-http")
 
 const app = express()
 
@@ -49,3 +50,4 @@ app.listen(port, () => {
 })
 
 module.export = app;
+module.exports.handler = serverless(app);
