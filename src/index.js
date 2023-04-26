@@ -1,15 +1,14 @@
 const line = require('@line/bot-sdk')
 const express = require("express")
-const serverless = require("serverless-http")
 
 const app = express()
 
-// Create a router to handle routes
-const router = express.Router();
+const dotenv = require('dotenv')
+const env = dotenv.config().parsed
 
 const lineConfig = {
-    channelAccessToken: process.env.ACCESS_TOKEN,
-    channelSecret: process.env.SECRET_TOKEN
+    channelAccessToken: env.ACCESS_TOKEN,
+    channelSecret: env.SECRET_TOKEN
 }
 
 const client = new line.Client(lineConfig)
@@ -24,16 +23,6 @@ const handleEvent = async (e) => {
     }
 }
 
-// Define a route that responds with a JSON object when a GET request is made to the root path
-router.get("/", (req, res) => {
-  res.json({
-    hello: "hi!"
-  });
-});
-
-// Use the router to handle requests to the `/.netlify/functions/api` path
-app.use(`/.netlify/functions/index`, router);
-
 app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
     try {
         const events = req.body.events
@@ -44,10 +33,9 @@ app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
     }
 })
 
-const port = process.env.PORT || 3000
+const port = env.PORT || 3000
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 })
 
 module.export = app;
-module.exports.handler = serverless(app);
