@@ -23,6 +23,12 @@ const handleEvent = async (e) => {
     }
 }
 
+app.use(express.static('dist'))
+
+app.get('/', (_, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, 'dist')});
+  })
+
 app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
     try {
         const events = req.body.events
