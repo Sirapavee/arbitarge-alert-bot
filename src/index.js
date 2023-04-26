@@ -29,15 +29,15 @@ app.get('/', (_, res) => {
     res.sendFile('index.html', {root: path.join(__dirname, 'dist')});
 })
 
-// app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
-//     try {
-//         const events = req.body.events
-//         console.log('event: ', events);
-//         return events.length > 0 ? await events.map((item) => handleEvent(item)) : res.status(200).send('OK')
-//     } catch (e) {
-//         res.status(500).end()
-//     }
-// })
+app.post('/webhook', line.middleware(lineConfig), async (req, res) => {
+    try {
+        const events = req.body.events
+        console.log('event: ', events);
+        return events.length > 0 ? await events.map((item) => handleEvent(item)) : res.status(200).send('OK')
+    } catch (e) {
+        res.status(500).end()
+    }
+})
 
 const port = env.PORT || 3000
 app.listen(port, () => {
